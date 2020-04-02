@@ -1,0 +1,18 @@
+/**
+* 
+*aqui é apresentado um breve passo a passo do que deve ser ajustado no modelo inicial do mvc.
+* @package Modelo padrão.
+* @author Luis Gustavo Santarosa Pinto.
+* @version 1.2.0.
+* 
+*/
+
+
+1º Trocar modulo no IndexController.php em modulo/controllers/
+2º Trocar o controlador principal dentro de modulo/controllers/
+3º Trocar a função listar principal dentro do controlador no [TROCAR]Controller.php em modulo/controllers/
+4º Trocar o model dentro de modulo/model/
+5º Trocar os modelos de dados dentro do model principa [TROCAR]Model.php em modulo/models/
+6º Trocar a view dentro de modulo/views
+7º Trocar a view principal dentro de listar[TROCAR]View.php em modulos/views/
+8º ajustar o ajax loadpage dentro de modulos/lib/

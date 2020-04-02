@@ -1,0 +1,93 @@
+<?php
+	$v_params = $this->getParams();
+	$v_novomvc = $v_params['v_novomvc'];
+
+	/**
+	* 
+	* @package Menu -> NovoMVC
+	* @author Luis Gustavo Santarosa Pinto
+	* @version 1.0.0
+	* 
+	*/
+?>
+
+<div id="load_editar_usuario">			
+	<center>
+		<div id="msg" class="hidden"></div>
+	</center>
+
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">Novomvc</h3><a href="#" data-toggle="modal" data-target="#myModal1" class="pull-right" onclick="load_view('ajudaNovomvc', '', true)"><i class="glyphicon glyphicon-question-sign"></i></a>
+		</div>
+		<div class="box-body">
+			<table id="data-table" class="table table-bordered table-striped table-hover">
+				<thead>
+					<tr>
+						<td ></td>
+						<th class="col-md-1"><center>Cod.			</center></th>
+						<th class="col-md-8"><center>Titulo			</center></th>
+						<th class="col-md-1"><center>Atualização	</center></th>
+						<th class="col-md-1"><center>Data Cadastro	</center></th>
+						<th class="col-md-1"><center>Status			</center></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($v_novomvc as $o_novomvc):?>
+						<tr>
+							<td>
+								<center>
+									<div class="btn-group">
+										<a class="btn btn-primary btn-xs dropdown-toggle" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" ><span class="glyphicon glyphicon-cog"></span></a>
+										<ul class="dropdown-menu">
+											<li><a href="#" onclick="load_view('visualizarNovomvc', 		'<?= $o_novomvc->getId() ?>')"><i class="glyphicon glyphicon-eye-open"></i> 		Vizualizar	</a></li>
+											<li><a href="#" onclick="load_view('alterarNovomvc',  			'<?= $o_novomvc->getId() ?>')"><i class="glyphicon glyphicon-pencil"></i>   		Alterar		</a></li>
+											<?php if($o_novomvc->getP_status()==1):?>
+												<li><a href="#" onclick="load_view('desativarNovomvc',  	'<?= $o_novomvc->getId() ?>')"><i class="glyphicon glyphicon-ban-circle"></i>   	Desativar	</a></li>
+											<?php endif;?>
+											<?php if($o_novomvc->getP_status()==0):?>
+												<li><a href="#" onclick="load_view('ativarNovomvc',  		'<?= $o_novomvc->getId() ?>')"><i class="glyphicon glyphicon-ban-circle"></i>  	 	Ativar		</a></li>
+											<?php endif;?>
+										
+										</ul>
+									</div>		
+								</center>			
+							</td>
+							<th><center><?= $o_novomvc->getId()?>				</center></th>
+							<th><center><?= $o_novomvc->getTitulo()?>			</center></th>
+							<td><center><?= $o_novomvc->getUpdated_at()?>		</center></td>
+							<td><center><?= $o_novomvc->getCreated_at()?>		</center></td>
+							<td><center><?= $o_novomvc->getStatus()?>			</center></td>
+						</tr>
+					<?php endforeach;?>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td align=right colspan="6">
+							<i class="fa fa-circle text-success" title="Funcionario Ativo"></i> 	Ativado
+							&nbsp;&nbsp;&nbsp;
+							<i class="fa fa-circle text-danger" title="Funcionario Desativo"></i> 	Desativado
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	<section class="content-header">
+		<ol class="breadcrumb">
+			<li><a href="index.php?pagina=painel"><i class="fa fa-dashboard"></i> 		Inicio	</a></li>
+			<li><a href="#">															novomvc	</a></li>
+			<li class="active">															novomvcs	</li>
+		</ol>
+	</section>
+	<br>
+</div>
+<div class='modal fade' id='myModal1' role='dialog' >
+	<div class='modal-dialog' role='document'>
+		<div class='modal-content'>
+			<div id='load_modal'>
+			</div>
+		</div>
+	</div>
+</div>
+<script src='modulos/Menu/NovoMVC/views/js/script.js'></script>

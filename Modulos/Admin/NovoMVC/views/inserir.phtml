@@ -1,0 +1,145 @@
+<?php
+	$v_params = $this->getParams();
+	$o_novomvc = $v_params['o_novomvc'];
+
+	/**
+	* 
+	* @package Menu -> NovoMVC
+	* @author Luis Gustavo Santarosa Pinto
+	* @version 1.0.0
+	* 
+	*/
+
+?>
+<link rel='stylesheet' href='modulos/Menu/NovoMVC/views/css/style.css'>
+<form id="ajax_form" method="POST">
+	<input type="hidden" id="action" value="saveNovomvc">
+	<input type='hidden' name='in_con' value='<?php echo $o_novomvc->getId();?>'>
+	<section class="content-header">
+		<h1>
+			Novomvc <small> - Novo</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="index.php?pagina=painel"><i class="fa fa-dashboard"></i> Inicio	</a></li>
+			<li><a href="#">Menu															</a></li>
+			<li><a href="#">NovoMVC															</a></li>
+			<li class="active">Inserir															</li>
+		</ol>
+	</section>
+	<br>
+	<div class="nav-tabs-custom">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab_0" data-toggle="tab">Geral</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab_0">
+				<fieldset class="form-group">
+					<br>
+					<div class="row">
+						<div class="col-md-2">
+							<label for="id">Cod</label>
+							<input type="text" class="form-control" readonly>
+						</div>
+						<div class="col-md-2">
+							<label for="created_at">Data de Cadastro</label>
+							<div class="input-group date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>							
+								<input type="text" name="created_at" class="form-control" value="<?php echo $o_novomvc->getCreated_at();?>" readonly>
+							</div>
+						</div>
+					</div>   
+					<br>     	
+					<div class="row">
+						<div class="col-md-3">
+							<label for="tipo">Tipo de Novomvc</label>
+							<select id="tipo" name="tipo" class="form-control select2" style="width: 100%;" required> 
+								<option value="" disabled selected>Selecione o novomvc		</option>
+								<option value="0" >0 - Zero									</option>
+								<option value="1" >1 - Um									</option>
+								<option value="2" >2 - Dois									</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<label for="status">Situação</label>
+							<select id="status" name="status" class="form-control select2" style="width: 100%;" required> 
+								<option value="" disabled selected>Selecione a situação		</option>
+								<option value="5"  >5 - Aberto								</option>
+								<option value="11" >11 - Concluido							</option>
+								<option value="12" >12 - Pendente							</option>
+								<option value="13" >13 - Teste								</option>
+								<option value="14" >14 - Analise							</option>
+							</select>
+						</div>
+					</div> 
+					<br>	
+					<div class="row">
+						<div class="col-md-4">
+							<label for="titulo">Titulo</label>
+							<input type="text" id="titulo" class="form-control" name="titulo" maxlength="100" title="Aqui voce pode colocar uma descrição para a sua conta." placeholder="Descrição da Receita">
+						</div>
+					</div>     
+					<br>     	
+					<div class="row">
+						<div class="col-md-6">
+							<label for="tipo">Conteudo</label>
+							<textarea name="conteudo" placeholder="Escreva o texto aqui!"></textarea>
+							
+						</div>
+					</div>      	   	     	  	
+				</fieldset>
+			</div>
+		</div>
+		<div class="box-footer">
+			<div class="row">
+				<div class="col-md-3">
+					<br><button type="submit" id="submit" class="btn btn-primary form-control">Inserir</button>
+				</div>
+				<div class="col-md-2">
+					<br><button type="submit" class="btn btn-primary form-control" data-dismiss='modal' form='fechar' onclick="load_view('listarNovomvc', '','')">Voltar</button>
+				</div>
+			</div> 
+		</div> 
+	</div>				
+</form>
+
+<script>
+
+	$(function(){//select2
+		$('.select2').select2();
+	})
+
+	$(function() {//AJAX FORM
+		$('form[id="ajax_form"]').submit(function(event){
+			event.preventDefault();
+			CKEDITOR.instances.conteudo.updateElement();
+			$("#submit").html("Aguarde...");
+			$("#submit").prop("disabled", true);
+
+			var action = document.getElementById("action").value;
+			var formulario = document.getElementById("ajax_form");
+			var formData = new FormData(formulario);
+
+
+			$.ajax({
+			url: "modulos/Menu/NovoMVC/?controle=novomvc&acao="+action,
+			type: "POST",
+			data: formData,
+			dataType: "json",
+			processData: false,  
+			contentType: false,
+			success: function(result){
+					var url = "modulos/Menu/NovoMVC/?controle=novomvc&acao=listarNovomvc";
+					$.get(url, function(dataReturn)
+					{
+						$("#load_pagina").html(dataReturn);
+						$("#msg").replaceWith(result);
+						$("#msg").fadeIn("fast");
+						$("#msg").fadeOut(5000);
+					});
+				}
+			});
+		});
+	});
+  </script>

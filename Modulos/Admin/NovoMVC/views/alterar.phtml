@@ -1,0 +1,225 @@
+<?php
+	$v_params = $this->getParams();
+	$o_novomvc = $v_params['o_novomvc'];
+
+	/**
+	* 
+	* @package Menu -> NovoMVC
+	* @author Luis Gustavo Santarosa Pinto
+	* @version 1.0.0
+	* 
+	*/
+?>
+
+<link rel='stylesheet' href='modulos/Menu/novoMVC/views/css/style.css'>
+
+<form id="ajax_form" method="POST">
+	<input type="hidden" id="action" value="saveNovomvc">
+  	<input type='hidden' name='in_con' value='<?= $o_novomvc->getId();?>'>
+
+	<section class="content-header">
+		<h1>
+			Novomvc <small> - <?= $o_novomvc->getId();?> <?= $o_novomvc->getTitulo();?></small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="index.php?pagina=painel"><i class="fa fa-dashboard"></i> Inicio</a></li>
+			<li><a href="#">Admin</a></li>
+			<li><a href="#">Novomvc</a></li>
+			<li class="active">Alterar</li>
+		</ol>
+	</section>
+	<br>
+	<div class="nav-tabs-custom">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab_0" data-toggle="tab">Geral</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab_0">
+				<fieldset class="form-group">
+					<div class='row'>
+						<div class="col-md-2">
+							<label for="id">Cod</label>
+							<input type="text" class="form-control" value='<?= $o_novomvc->getId();?>' readonly>
+						</div>
+						<div class="col-md-1 col-md-offset-1">
+							<label>Situação</label>
+							<label><?= $o_novomvc->getStatus();?></label>
+						</div>
+					</div>
+					<br>
+					<div class='row'>
+						<div class="col-md-3">
+							<label for="data_cadastro">Ultima Atualização</label>
+							<div class="input-group date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>							
+								<input type="text" name="created_at" class="form-control" value="<?= $o_novomvc->getUpdated_at();?>" readonly>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label for="data_cadastro">Data de Cadastro</label>
+							<div class="input-group date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>							
+								<input type="text" name="updated_at" class="form-control" value="<?= $o_novomvc->getCreated_at();?>" readonly>
+							</div>
+						</div>
+					</div>
+					<br>     	
+					<div class="row">
+						<div class="col-md-3">
+							<label for="tipo">Tipo de Novomvc</label>
+							<select id="tipo" name="tipo" class="form-control select2" style="width: 100%;" required> 
+								<option value="" disabled selected>Selecione o novomvc	</option>
+								<option value="0" <?= $o_novomvc->getTipo()== 0 ? "selected" : "";?>>0 - Zero									</option>
+								<option value="1" <?= $o_novomvc->getTipo()== 1 ? "selected" : "";?>>1 - Um										</option>
+								<option value="2" <?= $o_novomvc->getTipo()== 2 ? "selected" : "";?>>2 - Dois									</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<label for="status">Situação</label>
+							<select id="status" name="status" class="form-control select2" style="width: 100%;" required> 
+								<option value="" disabled selected>Selecione a situação		</option>
+								<option value="5"  <?= $o_novomvc->getP_status()== 5 ?  "selected" : "";?>>	5 - Aberto								</option>
+								<option value="11" <?= $o_novomvc->getP_status()== 11 ? "selected" : "";?>>	11 - Concluido							</option>
+								<option value="12" <?= $o_novomvc->getP_status()== 12 ? "selected" : "";?>>	12 - Pendente							</option>
+								<option value="13" <?= $o_novomvc->getP_status()== 13 ? "selected" : "";?>>	13 - Teste								</option>
+								<option value="14" <?= $o_novomvc->getP_status()== 14 ? "selected" : "";?>>	14 - Analise							</option>
+							</select>
+						</div>
+					</div> 
+					<br>
+					<div class="row">
+						<div class="col-md-6">
+							<label for="titulo">Titulo</label>
+							<input type="text" id="titulo" class="form-control" name="titulo" value="<?= $o_novomvc->getTitulo();?>" maxlength="100" title="Aqui voce pode colocar uma descrição para a sua conta." placeholder="Descrição da Receita">
+						</div>
+					</div> 
+					<br>     	
+					<div class="row">
+						<div class="col-md-6">
+							<label for="tipo">Conteudo</label>
+							<textarea name="conteudo" placeholder="Escreva o texto aqui!"><?= $o_novomvc->getConteudo();?></textarea>
+							
+						</div>
+					</div>  	   	     	  		   	     	  	
+				</fieldset>
+			</div>
+		</div>
+		<div class="box-footer">
+			<div class="row">
+				<div class="col-md-3">
+					<br><button type="submit" id="submit" class="btn btn-primary form-control">Salvar</button>
+				</div>
+				<div class="col-md-2">
+					<br><button type="submit" class="btn btn-primary form-control" data-dismiss='modal' form='fechar' onclick="load_view('listarNovomvc', '','')">Voltar</button>
+				</div>
+			</div> 
+		</div> 
+	</div>			
+</form>
+
+<script>
+
+	CKEDITOR.replace( 'conteudo', {
+		toolbar: [
+			{ name: 'document', items: [ 'Print' ] },
+			{ name: 'clipboard', items: [ 'Undo', 'Redo' ] },
+			{ name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
+			{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'CopyFormatting' ] },
+			{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+			{ name: 'align', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+			{ name: 'links', items: [ 'Link', 'Unlink' ] },
+			{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+			{ name: 'insert', items: [ 'Image', 'Table' ] },
+			{ name: 'tools', items: [ 'Maximize' ] },
+			{ name: 'editing', items: [ 'Scayt' ] },
+      {
+          name: 'document',
+          items: ['Print', 'PageBreak', 'Source']
+        }
+		],
+		customConfig: '',
+		disallowedContent: 'img{width,height,float}',
+		extraAllowedContent: 'img[width,height,align]',
+		extraPlugins: 'tableresize,uploadimage,uploadfile',
+		height: 300,
+		contentsCss: [ 'https://cdn.ckeditor.com/4.8.0/full-all/contents.css', 'mystyles.css' ],
+		bodyClass: 'document-editor',
+		format_tags: 'p;h1;h2;h3;pre',
+		removeDialogTabs: 'image:advanced;link:advanced',
+		stylesSet: [
+			/* Inline Styles */
+			{ name: 'Marker', element: 'span', attributes: { 'class': 'marker' } },
+			{ name: 'Cited Work', element: 'cite' },
+			{ name: 'Inline Quotation', element: 'q' },
+
+			/* Object Styles */
+			{
+				name: 'Special Container',
+				element: 'div',
+				styles: {
+					padding: '5px 10px',
+					background: '#eee',
+					border: '1px solid #ccc'
+				}
+			},
+			{
+				name: 'Compact table',
+				element: 'table',
+				attributes: {
+					cellpadding: '5',
+					cellspacing: '0',
+					border: '1',
+					bordercolor: '#ccc'
+				},
+				styles: {
+					'border-collapse': 'collapse'
+				}
+			},
+			{ name: 'Borderless Table', element: 'table', styles: { 'border-style': 'hidden', 'background-color': '#E6E6FA' } },
+			{ name: 'Square Bulleted List', element: 'ul', styles: { 'list-style-type': 'square' } }
+		]
+	} );
+
+	
+	$(function(){//select2
+		$('.select2').select2();
+	})
+
+	$(function() {//AJAX FORM
+		$('form[id="ajax_form"]').submit(function(event){
+			event.preventDefault();
+			CKEDITOR.instances.conteudo.updateElement();
+			$("#submit").html("Aguarde...");
+			$("#submit").prop("disabled", true);
+
+			var action = document.getElementById("action").value;
+			CKEDITOR.instances["conteudo"].updateElement();
+			var formulario = document.getElementById("ajax_form");
+			var formData = new FormData(formulario);
+
+
+			$.ajax({
+			url: "modulos/Admin/novomvcs/?controle=novomvc&acao="+action,
+			type: "POST",
+			data: formData,
+			dataType: "json",
+			processData: false,  
+			contentType: false,
+			success: function(result){
+					var url = "modulos/Admin/novomvcs/?controle=novomvc&acao=listarNovomvc";
+					$.get(url, function(dataReturn)
+					{
+						$("#load_pagina").html(dataReturn);
+						$("#msg").replaceWith(result);
+						$("#msg").fadeIn("fast");
+						$("#msg").fadeOut(5000);
+					});
+				}
+			});
+		});
+	});
+  </script>
